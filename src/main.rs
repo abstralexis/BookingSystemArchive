@@ -18,7 +18,7 @@ fn main() -> Result<(), Error> {
     let last: String = String::from("Doe");
     let email = EmailAddress::from_str("johndoe@emailservice.net").unwrap();
     let password = digest("password123");
-    let user: User = User::new(id, email, first, last, password);
+    let mut user: User = User::new(id, email, first, last, password);
 
     let booking_id: Uuid = Uuid::new_v4();
     let user_id: Uuid = user.get_id();
