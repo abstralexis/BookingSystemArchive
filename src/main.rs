@@ -1,14 +1,14 @@
 #![allow(non_snake_case)]
 
-mod user;
 mod booking;
-use crate::user::User;
+mod user;
 use crate::booking::Booking;
-use std::str::FromStr;
+use crate::user::User;
+use chrono::prelude::*;
 use email_address::*;
 use sha256::digest;
+use std::str::FromStr;
 use uuid::Uuid;
-use chrono::prelude::*;
 
 fn main() {
     let id: Uuid = Uuid::new_v4();
@@ -20,22 +20,9 @@ fn main() {
 
     let booking_id: Uuid = Uuid::new_v4();
     let user_id: Uuid = user.get_id();
-    let from: DateTime<Utc> = Utc::now();
-    let to: DateTime<Utc> = Utc.with_ymd_and_hms(
-        2023, 
-        2, 
-        26, 
-        0, 
-        0, 
-        0
-    ).unwrap();
-    let booking: Booking = Booking::new(
-        booking_id,
-        user_id,
-        from,
-        to
-    );
+    let start: DateTime<Utc> = Utc::now();
+    let end: DateTime<Utc> = Utc.with_ymd_and_hms(2023, 2, 26, 0, 0, 0).unwrap();
+    let booking: Booking = Booking::new(booking_id, user_id, start, end);
 
     dbg!(&user, &booking);
 }
-

@@ -28,5 +28,7 @@ impl User {
         }
     }
 
-    pub fn get_id(&self) -> Uuid { return self.uuid }
+    pub fn get_id(&self) -> Uuid {
+        return self.uuid;
+    }
 }
