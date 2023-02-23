@@ -28,7 +28,23 @@ impl User {
         }
     }
 
-    pub fn get_id(&self) -> Uuid {
+    pub fn get_id(&mut self) -> Uuid {
         return self.uuid;
+    }
+
+    pub fn get_email(&mut self) -> EmailAddress {
+        return self.email;
+    }
+
+    pub fn get_first_name(&mut self) -> String {
+        return self.first_name;
+    }
+
+    pub fn get_last_name(&mut self) -> String {
+        return self.last_name;
+    }
+
+    pub fn get_hashed_password(&mut self) -> String {
+        return self.hashed_password;
     }
 }
