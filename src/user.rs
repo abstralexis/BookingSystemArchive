@@ -5,7 +5,7 @@ use uuid::Uuid;
 
 #[derive(Debug)]
 pub struct User {
-    UUID: Uuid,
+    uuid: Uuid,
     email: EmailAddress,
     first_name: String,
     last_name: String,
@@ -13,18 +13,20 @@ pub struct User {
 }
 impl User {
     pub fn new(
-        UUID: Uuid,
+        uuid: Uuid,
         email: EmailAddress,
         first_name: String,
         last_name: String,
         hashed_password: String,
     ) -> Self {
         User {
-            UUID: UUID,
-            email: email,
-            first_name: first_name,
-            last_name: last_name,
-            hashed_password: hashed_password,
+            uuid,
+            email,
+            first_name,
+            last_name,
+            hashed_password,
         }
     }
+
+    pub fn get_id(&self) -> Uuid { return self.uuid }
 }
