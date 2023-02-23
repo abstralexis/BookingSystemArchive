@@ -10,6 +10,15 @@ use postgres::{Client, Error, NoTls};
 use sha256::digest;
 use std::str::FromStr;
 use uuid::Uuid;
+use std::fmt;
+
+#[derive(Debug, Clone)]
+struct NotUniqueError;
+impl fmt::Display for NotUniqueError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Item is supposed to be unique but is not")
+    }
+}
 
 fn main() -> Result<(), Error> {
     let id: Uuid = Uuid::new_v4();
@@ -27,9 +36,19 @@ fn main() -> Result<(), Error> {
 
     let mut client: Client = connect_and_initialise()?;
 
-    // Eventually make a function for this as it gets messy
+    add_user(&mut client, &user).unwrap();
+    add_booking(&mut client, &booking).unwrap();
+
+    dbg!(&user, &booking);
+
+    Ok(())
+}
+
+// --- Write and forget (hopefully) ---
+
+fn add_user(client: &mut Client, user: &User) -> Result<(), NotUniqueError> {
     match client
-        .query("SELECT * FROM users WHERE uuid = $1", &[&id])?
+        .query("SELECT * FROM users WHERE uuid = $1", &[&user.uuid]).unwrap()
         .is_empty()
     {
         true => {
@@ -37,39 +56,37 @@ fn main() -> Result<(), Error> {
                 .query(
                     "SELECT * FROM users WHERE email = $1",
                     &[&user.email.to_string()],
-                )?
+                ).unwrap()
                 .is_empty()
             {
                 true => {
                     client.execute(
                         "INSERT INTO users (uuid, email, first_name, last_name, hashed_password) VALUES ($1, $2, $3, $4, $5)",
                         &[&user.uuid, &user.email.to_string(), &user.first_name, &user.last_name, &user.hashed_password]
-                    )?;
+                    ).unwrap();
+                    Ok(())
                 }
-                false => panic!("User Email not unique."),
+                false => Err(NotUniqueError),
             }
         }
-        false => panic!("User UUID not unique"),
+        false => Err(NotUniqueError),
     }
+}
 
-    // Eventually make a function to do this because it gets messy
-    // This will also need to have booking timeframe checking
+fn add_booking(client: &mut Client, booking: &Booking) -> Result<(), NotUniqueError> {
     match client
-        .query("SELECT * FROM bookings WHERE uuid = $1", &[&booking_id])?
-        .is_empty()
+    .query("SELECT * FROM bookings WHERE uuid = $1", &[&booking.uuid]).unwrap()
+    .is_empty()
     {
-        true => {
-            client.execute(
-                "INSERT INTO bookings (uuid, booker_id, start_time, end_time) VALUES ($1, $2, $3, $4)", 
-                &[&booking.uuid, &booking.booker_id, &booking.start, &booking.end]
-            )?;
-        }
-        false => panic!("Booking UUID not unique"),
+    true => {
+        client.execute(
+            "INSERT INTO bookings (uuid, booker_id, start_time, end_time) VALUES ($1, $2, $3, $4)", 
+            &[&booking.uuid, &booking.booker_id, &booking.start, &booking.end]
+        ).unwrap();
+        Ok(())
     }
-
-    dbg!(&user, &booking);
-
-    Ok(())
+    false => Err(NotUniqueError),
+    }
 }
 
 fn connect_and_initialise() -> Result<Client, Error> {
@@ -81,8 +98,8 @@ fn connect_and_initialise() -> Result<Client, Error> {
     client.batch_execute(
         "
         CREATE TABLE IF NOT EXISTS users (
-            uuid UUID NOT NULL,
-            email VARCHAR NOT NULL,
+            uuid UUID UNIQUE NOT NULL,
+            email VARCHAR UNIQUE NOT NULL,
             first_name VARCHAR NOT NULL,
             last_name VARCHAR NOT NULL,
             hashed_password VARCHAR NOT NULL
@@ -99,3 +116,5 @@ fn connect_and_initialise() -> Result<Client, Error> {
 
     Ok(client)
 }
+
+// --- ---------------------------- ---
