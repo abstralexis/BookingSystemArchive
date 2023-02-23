@@ -5,11 +5,11 @@ use uuid::Uuid;
 
 #[derive(Debug)]
 pub struct User {
-    uuid: Uuid,
-    email: EmailAddress,
-    first_name: String,
-    last_name: String,
-    hashed_password: String,
+    pub uuid: Uuid,
+    pub email: EmailAddress,
+    pub first_name: String,
+    pub last_name: String,
+    pub hashed_password: String,
 }
 impl User {
     pub fn new(
@@ -26,25 +26,5 @@ impl User {
             last_name,
             hashed_password,
         }
-    }
-
-    pub fn get_id(&mut self) -> Uuid {
-        return self.uuid;
-    }
-
-    pub fn get_email(&mut self) -> EmailAddress {
-        return self.email;
-    }
-
-    pub fn get_first_name(&mut self) -> String {
-        return self.first_name;
-    }
-
-    pub fn get_last_name(&mut self) -> String {
-        return self.last_name;
-    }
-
-    pub fn get_hashed_password(&mut self) -> String {
-        return self.hashed_password;
     }
 }
