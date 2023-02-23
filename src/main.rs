@@ -7,7 +7,7 @@ use crate::user::User;
 
 use email_address::*;
 use sha256::digest;
-use uuid::{uuid, Uuid};
+use uuid::Uuid;
 
 fn main() {
     let id: Uuid = Uuid::new_v4();
@@ -20,3 +20,4 @@ fn main() {
 
     dbg!(&user);
 }
+
