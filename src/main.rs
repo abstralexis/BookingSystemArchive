@@ -24,8 +24,8 @@ fn main() -> Result<(), Error> {
     let booking_id: Uuid = Uuid::new_v4();
     let user_id: Uuid = user.uuid;
     let start: DateTime<Utc> = Utc::now();
-    let end: DateTime<Utc> = Utc.with_ymd_and_hms(2023, 2, 26, 0, 0, 0).unwrap();
-    let booking: Booking = Booking::new(booking_id, user_id, start, end);
+    let end: DateTime<Utc> = Utc.with_ymd_and_hms(2023, 3, 11, 0, 0, 0).unwrap();
+    let booking: Booking = Booking::new(booking_id, user_id, start, end).unwrap();
 
     let mut client: Client = connect_and_initialise()?;
 
