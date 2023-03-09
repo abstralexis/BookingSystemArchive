@@ -8,11 +8,10 @@ use crate::user::User;
 use crate::database_commands::*;
 use chrono::prelude::*;
 use email_address::*;
-use postgres::{Client, Error, NoTls};
+use postgres::{Client, Error};
 use sha256::digest;
 use std::str::FromStr;
 use uuid::Uuid;
-use std::fmt;
 
 fn main() -> Result<(), Error> {
     let id: Uuid = Uuid::new_v4();
