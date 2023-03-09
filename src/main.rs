@@ -10,8 +10,18 @@ use chrono::prelude::*;
 use email_address::*;
 use postgres::{Client, Error};
 use sha256::digest;
+use yew::prelude::*;
 use std::str::FromStr;
 use uuid::Uuid;
+
+#[function_component(App)]
+fn app() -> Html {
+    html! {
+        <div>
+            <h1>{ "Hello world!" }</h1>
+        </div>
+    }
+}
 
 fn main() -> Result<(), Error> {
     let id: Uuid = Uuid::new_v4();
@@ -29,10 +39,12 @@ fn main() -> Result<(), Error> {
 
     let mut client: Client = connect_and_initialise()?;
 
-    add_user(&mut client, &user).unwrap();
-    add_booking(&mut client, &booking).unwrap();
+    // add_user(&mut client, &user).unwrap();
+    // add_booking(&mut client, &booking).unwrap();
 
-    dbg!(&user, &booking);
+    // dbg!(&user, &booking);
+
+    yew::Renderer::<App>::new().render();
 
     Ok(())
 }
