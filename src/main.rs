@@ -23,7 +23,7 @@ fn app() -> Html {
     }
 }
 
-fn main() -> Result<(), Error> {
+fn main() {
     let id: Uuid = Uuid::new_v4();
     let first: String = String::from("John");
     let last: String = String::from("Doe");
@@ -37,7 +37,7 @@ fn main() -> Result<(), Error> {
     let end: DateTime<Utc> = Utc.with_ymd_and_hms(2023, 3, 11, 0, 0, 0).unwrap();
     let booking: Booking = Booking::new(booking_id, user_id, start, end).unwrap();
 
-    let mut client: Client = connect_and_initialise()?;
+    // let mut client: Client = connect_and_initialise().unwrap();
 
     // add_user(&mut client, &user).unwrap();
     // add_booking(&mut client, &booking).unwrap();
@@ -45,6 +45,4 @@ fn main() -> Result<(), Error> {
     // dbg!(&user, &booking);
 
     yew::Renderer::<App>::new().render();
-
-    Ok(())
 }

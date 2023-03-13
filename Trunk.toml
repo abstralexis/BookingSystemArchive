@@ -75,13 +75,13 @@ insecure = true
 # Hooks are optional, and default to `None`.
 # Hooks are executed as part of Trunk's main build pipeline, no matter how it is run.
 
-[[hooks]]
-# This hook example shows all the current available fields. It will execute the equivalent of
-# typing "echo Hello Trunk!" right at the start of the build process (even before the HTML file
-# is read). By default, the command is spawned directly and no shell is used.
-stage = "pre_build"
-command = "echo"
-command_arguments = ["Hello", "Trunk!"]
+# [[hooks]]
+# # This hook example shows all the current available fields. It will execute the equivalent of
+# # typing "echo Hello Trunk!" right at the start of the build process (even before the HTML file
+# # is read). By default, the command is spawned directly and no shell is used.
+# stage = "pre_build"
+# command = "echo"
+# command_arguments = ["Hello World"]
 
 [[hooks]]
 # This hook example shows running a command inside a shell. As a result, features such as variable
