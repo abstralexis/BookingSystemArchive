@@ -1,14 +1,17 @@
 #![allow(dead_code)]
 
 use chrono::prelude::*;
-use uuid::Uuid;
 use std::fmt;
+use uuid::Uuid;
 
 #[derive(Debug, Clone)]
 pub struct StartsAfterEndError;
 impl fmt::Display for StartsAfterEndError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Email starts with a date that is after or equal to the end date.")
+        write!(
+            f,
+            "Email starts with a date that is after or equal to the end date."
+        )
     }
 }
 
@@ -20,19 +23,22 @@ pub struct Booking {
     pub end: DateTime<Utc>,
 }
 impl Booking {
-    pub fn new(uuid: Uuid, booker_id: Uuid, start: DateTime<Utc>, end: DateTime<Utc>) -> Result<Booking, StartsAfterEndError> {
+    pub fn new(
+        uuid: Uuid,
+        booker_id: Uuid,
+        start: DateTime<Utc>,
+        end: DateTime<Utc>,
+    ) -> Result<Booking, StartsAfterEndError> {
         if end <= start {
             return Err(StartsAfterEndError);
         }
-        
-        Ok(
-            Booking {
-                uuid,
-                booker_id,
-                start,
-                end,
-            }
-        )
+
+        Ok(Booking {
+            uuid,
+            booker_id,
+            start,
+            end,
+        })
     }
 
     pub fn update_start_time(&mut self, start: DateTime<Utc>) {

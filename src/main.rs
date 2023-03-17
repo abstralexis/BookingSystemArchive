@@ -1,18 +1,19 @@
 #![allow(non_snake_case)]
 
 mod booking;
-mod user;
 mod database_commands;
+mod user;
 use crate::booking::Booking;
-use crate::user::User;
 use crate::database_commands::*;
+use crate::user::User;
 use chrono::prelude::*;
 use email_address::*;
 use postgres::{Client, Error};
+use postgrest::Postgrest;
 use sha256::digest;
-use yew::prelude::*;
 use std::str::FromStr;
 use uuid::Uuid;
+use yew::prelude::*;
 
 #[function_component(App)]
 fn app() -> Html {
