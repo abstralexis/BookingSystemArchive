@@ -1,7 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:postgres/postgres.dart';
+import 'package:crypto/crypto.dart';
+import 'package:uuid/uuid.dart';
 
-void main() {
+void main() async {
+  PostgreSQLConnection client = connect();
+  await client.open();
+  initialise(client);
+
   runApp(const MyApp());
+}
+
+PostgreSQLConnection connect() {
+  return PostgreSQLConnection(
+    "localhost",
+    5432,
+    "bookingsystem",
+    username: "postgres",
+    password: "AlexisDB", // Maybe don't hard-code secrets
+  );
+}
+
+void initialise(PostgreSQLConnection client) async {
+  await client.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            uuid UUID UNIQUE NOT NULL,
+            email VARCHAR UNIQUE NOT NULL,
+            first_name VARCHAR NOT NULL,
+            last_name VARCHAR NOT NULL,
+            hashed_password VARCHAR NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS bookings (
+            uuid UUID NOT NULL,
+            booker_id UUID NOT NULL,
+            start_time TIMESTAMP WITH TIME ZONE NOT NULL,
+            end_time TIMESTAMP WITH TIME ZONE NOT NULL
+        );
+    """);
 }
 
 class MyApp extends StatelessWidget {
