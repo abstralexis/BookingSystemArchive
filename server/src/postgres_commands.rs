@@ -5,7 +5,7 @@ use email_address::*;
 use tokio;
 use postgres::{Client, Error, NoTls};
 
-async fn connect_and_initialise() -> Result<Client, Error> {
+pub async fn connect_and_initialise() -> Result<Client, Error> {
     let mut client: Client = Client::connect(
         "postgresql://postgres:AlexisDB@localhost/bookingsystem",
         NoTls,
