@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 booking_system_types = { path = "./booking_system_types" }
+rocket = "0.4.11"
