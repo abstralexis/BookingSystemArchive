@@ -3,7 +3,7 @@
 use email_address::*;
 use uuid::Uuid;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct User {
     pub uuid: Uuid,
     pub email: EmailAddress,

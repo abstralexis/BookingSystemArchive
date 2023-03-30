@@ -4,7 +4,7 @@ use chrono::prelude::*;
 use std::fmt;
 use uuid::Uuid;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct StartsAfterEndError;
 impl fmt::Display for StartsAfterEndError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -15,7 +15,7 @@ impl fmt::Display for StartsAfterEndError {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Booking {
     pub uuid: Uuid,
     pub booker_id: Uuid,
