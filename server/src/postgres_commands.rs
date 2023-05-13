@@ -18,14 +18,15 @@ pub async fn connect_and_initialise() -> Result<Client, Error> {
             email VARCHAR UNIQUE NOT NULL,
             first_name VARCHAR NOT NULL,
             last_name VARCHAR NOT NULL,
-            hashed_password VARCHAR NOT NULL
+            hashed_password VARCHAR NOT NULL,
         );
 
         CREATE TABLE IF NOT EXISTS bookings (
             uuid UUID NOT NULL,
-            FOREIGN KEY (booker_id) REFERENCES users(uuid),
+            booker_id UUID NOT NULL,
             start_time TIMESTAMP WITH TIME ZONE NOT NULL,
-            end_time TIMESTAMP WITH TIME ZONE NOT NULL
+            end_time TIMESTAMP WITH TIME ZONE NOT NULL,
+            FOREIGN KEY (booker_id) REFERENCES users(uuid),
         );
     ",
     )?;
