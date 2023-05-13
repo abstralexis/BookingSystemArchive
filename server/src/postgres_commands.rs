@@ -23,7 +23,7 @@ pub async fn connect_and_initialise() -> Result<Client, Error> {
 
         CREATE TABLE IF NOT EXISTS bookings (
             uuid UUID NOT NULL,
-            booker_id UUID NOT NULL,
+            FOREIGN KEY (booker_id) REFERENCES users(uuid),
             start_time TIMESTAMP WITH TIME ZONE NOT NULL,
             end_time TIMESTAMP WITH TIME ZONE NOT NULL
         );
